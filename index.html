@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   <title>Sarat Aynoha · Mis XV</title>
+   
+   <!-- FUENTES -->
+   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/glacial-indifference">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   <!-- NOTIFICACIÓN TOAST -->
+   <div id="toast" class="toast">¡Alias copiado al portapapeles! 📋✨</div>
+
+   <!-- CANVAS PÉTALOS ROSAS -->
+   <canvas id="petalsCanvas"></canvas>
+
+   <!-- MÚSICA DE FONDO -->
+   <audio id="musicaInvitacion" preload="auto" loop>
+      <source src="img/musica.mp3" type="audio/mpeg">
+   </audio>
+
+   <!-- BOTÓN FLOTANTE DE MÚSICA -->
+   <div id="music-toggle" class="music-btn" onclick="toggleMusic()">
+       <i class="fa-solid fa-music"></i>
+   </div>
+
+   <!-- INTRO / SOBRE INICIAL -->
+   <div id="contenedor-principal" onclick="activarInvitacion()">
+       <video id="videoSobre" playsinline muted preload="auto">
+           <source src="img/1.mp4" type="video/mp4">
+       </video>
+       <img src="img/sobre.png" alt="Sobre" id="imgSobreEstetica" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:2;">
+       <div id="capa-boton">
+           <div class="boton-rosa-inicio" id="btn-toca-abrir">Tocá el sello para abrir la invitación 💌</div>
+       </div>
+   </div>
+
+   <!-- CONTENEDOR TIPO APP MÓVIL CENTRADO -->
+   <div class="mobile-wrapper">
+       <div id="seccion-final" class="oculto">
+          
+           <!-- PORTADA HERO 1080x1920 (LIMPIA, SIN TEXTOS ENCIMA) -->
+           <section class="video-deco-container">
+               <video id="videoDeco" playsinline muted autoplay loop>
+                   <source src="img/portada.mp4" type="video/mp4">
+               </video>
+               <div class="scroll-indicator-wrap">
+                   <span class="desliza-tag">Deslizá</span>
+                   <div class="arrow-down"></div>
+               </div>
+           </section>
+
+           <!-- ======================================================== -->
+           <!-- PRIMERA PARTE DEL FONDO (fondo.png uniforme)             -->
+           <!-- ======================================================== -->
+           <div class="bloque-fondo-1">
+
+               <!-- SALUDO VIP PERSONALIZADO -->
+               <div id="bloque-vip" class="vip-card-wrap oculto">
+                   <div class="vip-tag">Pase exclusivo para:</div>
+                   <div id="nombre-invitado-vip" class="vip-guest-name"></div>
+               </div>
+
+               <!-- MENSAJE DE BIENVENIDA (LIMPIO, SIN "TE ESPERO PARA...") -->
+               <section class="section-pad reveal">
+                   <div class="contenido-relativo">
+                       <div class="glass-card border-rose card-textured">
+                           <div class="svg-divider top-divider"></div>
+                           <p class="text-body" style="font-family:'Montserrat',sans-serif; line-height:1.7;">
+                               Con mucha alegría quiero invitarte a compartir conmigo una noche muy especial.<br><br>
+                               Será un honor contar con tu presencia y hacer de esta noche un recuerdo inolvidable.
+                           </p>
+                           <div class="svg-divider bottom-divider"></div>
+                       </div>
+                   </div>
+               </section>
+
+               <!-- SAVE THE DATE + 3 CÍRCULOS -->
+               <section class="section-pad reveal">
+                   <div class="contenido-relativo">
+                       <div class="glass-card border-rose card-textured">
+                           <div class="svg-divider top-divider"></div>
+                           <h2 class="title-cinzel">Save the Date</h2>
+                           <p class="instruction">Tocá los 3 círculos para descubrir la fecha:</p>
+                           
+                           <div class="circles-grid">
+                               <button type="button" class="circle-btn" onclick="revealDate(this, '10')">?</button>
+                               <button type="button" class="circle-btn" onclick="revealDate(this, 'OCT')">?</button>
+                               <button type="button" class="circle-btn" onclick="revealDate(this, '2026')">?</button>
+                           </div>
+                           
+                           <div id="revealed-date-msg" class="revealed-date-container">
+                               <p class="day-text">Sábado 10 de octubre de 2026</p>
+                               <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+de+Sarat+Aynoha&dates=20261010T230000Z/20261011T090000Z" target="_blank" class="btn btn-outline"><i class="fa-regular fa-calendar-plus"></i> Agregar a Google Calendar</a>
+
+                               <div class="countdown-wrapper mt-30">
+                                   <h2 class="title-cinzel gold-shimmer">Faltan...</h2>
+                                   <div class="countdown-grid">
+                                       <div class="timer-box"><span id="days">00</span><small>Días</small></div>
+                                       <div class="timer-box"><span id="hours">00</span><small>Horas</small></div>
+                                       <div class="timer-box"><span id="minutes">00</span><small>Minutos</small></div>
+                                       <div class="timer-box"><span id="seconds">00</span><small>Segundos</small></div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="svg-divider bottom-divider"></div>
+                       </div>
+                   </div>
+               </section>
+
+               <!-- CRONOGRAMA PRO ESTILO DANIELA -->
+           <section class="section-pad reveal">
+               <div class="contenido-relativo">
+                   <div class="glass-card border-rose card-textured">
+                       <div class="svg-divider top-divider"></div>
+                       <h2 class="title-cinzel">Cronograma</h2>
+                       
+                       <div class="sub-block">
+                           <i class="fa-solid fa-church section-icon"></i>
+                           <h3 class="location-title">Ceremonia Religiosa</h3>
+                           <p class="date-highlight" style="font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; color:var(--accent-dark); margin-top:2px;">04 de Octubre</p>
+                           <p class="time-highlight gold-shimmer">19:00 hs</p>
+                           <p class="address">Parroquia Nuestra Señora de la Asunción</p>
+                           <div class="gps-btn-group">
+                               <a href="https://maps.app.goo.gl/v2SD9DArnQoi5yMQ9?g_st=ac" target="_blank" class="btn btn-sm"><i class="fa-solid fa-map-location-dot"></i> Google Maps</a>
+                               <a href="https://waze.com/ul" target="_blank" class="btn btn-sm btn-waze"><i class="fa-brands fa-waze"></i> Waze</a>
+                           </div>
+                       </div>
+                       
+                       <div class="sub-block mt-30">
+                           <i class="fa-solid fa-glass-cheers section-icon spin-icon"></i>
+                           <h3 class="location-title">La Fiesta</h3>
+                           <p class="date-highlight" style="font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; color:var(--accent-dark); margin-top:2px;">10 de Octubre</p>
+                           <p class="time-highlight gold-shimmer">20:00 hs</p>
+                           <p class="address">Salón Pineda Máster</p>
+                           <div class="gps-btn-group">
+                               <a href="https://maps.app.goo.gl/KLoLW6e4LE4qihY16" target="_blank" class="btn btn-sm btn-gold"><i class="fa-solid fa-map-location-dot"></i> Google Maps</a>
+                               <a href="https://waze.com/ul" target="_blank" class="btn btn-sm btn-waze"><i class="fa-brands fa-waze"></i> Waze</a>
+                           </div>
+                       </div>
+                       <div class="svg-divider bottom-divider"></div>
+                   </div>
+               </div>
+           </section>
+
+               <!-- DRESS CODE ELEGANTE (SOLO ELEGANTE + EVITAR) -->
+               <section class="section-pad reveal">
+                   <div class="contenido-relativo">
+                       <div class="glass-card border-rose card-textured">
+                           <div class="svg-divider top-divider"></div>
+                           <h2 class="title-cinzel">Dress Code</h2>
+                           <p class="highlight-text gold-shimmer" style="font-family:'Cinzel',serif; font-size:1.4rem; letter-spacing:3px;">ELEGANTE</p>
+                           <div class="alert-box" style="margin-top:15px;">Por favor, evitar Blanco, Rosa y Gris.</div>
+                           <div class="svg-divider bottom-divider"></div>
+                       </div>
+                   </div>
+               </section>
+
+           </div> <!-- FIN BLOQUE FONDO 1 -->
+
+
+           <!-- ======================================================== -->
+           <!-- SEGUNDA PARTE DEL FONDO (fondo.png uniforme)             -->
+           <!-- ======================================================== -->
+           <div class="bloque-fondo-2">
+
+               <!-- MURO DE DESEOS -->
+               <section class="section-pad reveal">
+                   <div class="contenido-relativo">
+                       <div class="glass-card border-gold card-textured">
+                           <div class="svg-divider top-divider"></div>
+                           <h2 class="title-cinzel gold-shimmer">Muro de Deseos</h2>
+                           <p class="text-body" style="font-size:0.85rem; margin-bottom:12px;">Déjale un mensaje de cariño a Sarat</p>
+                           <div class="wish-form mt-15" style="display:flex; flex-direction:column; gap:10px;">
+                               <input type="text" id="wishName" placeholder="Tu nombre..." class="input-pro">
+                               <textarea id="wishText" rows="3" placeholder="Escribe tu deseo..." class="input-pro"></textarea>
+                               <button type="button" onclick="enviarDeseo()" class="btn btn-gold">Publicar Deseo 💌</button>
+                           </div>
+                           <div class="svg-divider bottom-divider"></div>
+                       </div>
+                   </div>
+               </section>
+
+               <!-- BUZÓN DE CANCIONES -->
+               <section class="section-pad reveal">
+                   <div class="contenido-relativo">
+                       <div class="glass-card border-gold card-textured">
+                           <div class="svg-divider top-divider"></div>
+                           <h2 class="title-cinzel gold-shimmer">Buzón de Canciones</h2>
+                           <p class="text-body" style="font-size:0.85rem; margin-bottom:12px;">Sugiere un tema para encender la pista</p>
+                           <div class="song-form mt-15" style="display:flex; flex-direction:column; gap:10px;">
+                               <input type="text" id="songArtist" placeholder="Artista / Banda..." class="input-pro">
+                               <input type="text" id="songTitle" placeholder="Nombre de la canción..." class="input-pro">
+                               <button type="button" onclick="pedirCancion()" class="btn btn-gold">Sugerir Canción 🎵</button>
+                           </div>
+                           <div class="svg-divider bottom-divider"></div>
+                       </div>
+                   </div>
+               </section>
+               
+               <!-- CONFIRMACIÓN DE ASISTENCIA -->
+               <section class="section-pad reveal">
+                   <div class="contenido-relativo">
+                       <div class="glass-card border-rose card-textured">
+                           <div class="svg-divider top-divider"></div>
+                           <h2 class="title-cinzel">RSVP</h2>
+                           <p class="text-body">Por favor confirmar tu presencia hasta el <strong>02 de octubre</strong></p>
+                           <a href="https://wa.me/595983436971?text=¡Hola!%20Confirmo%20mi%20asistencia%20a%20los%20XV%20de%20Sarat%20Aynoha%20✨" class="btn" target="_blank"><i class="fa-brands fa-whatsapp"></i> Confirmar Asistencia</a>
+                           <div class="svg-divider bottom-divider"></div>
+                       </div>
+                   </div>
+               </section>
+
+              <!-- CIERRE EXACTO: ¡TE ESPERO! CON CARIÑO ARRIBA + SARAT GRANDE DORADO ABAJO -->
+               <section class="section-pad final-name-card reveal">
+                   <div class="contenido-relativo card-textured glass-card border-gold" style="padding: 45px 24px;">
+                       <p class="cierre-arriba" style="font-family:'Montserrat',sans-serif; font-size:0.8rem; letter-spacing:3px; color:var(--text-dark); font-weight:400; margin-bottom:14px; text-transform:uppercase;">¡Te espero! Con cariño ♡</p>
+                       <h2 class="gold-shimmer" style="font-family:'Cinzel',serif; font-size:3rem !important; letter-spacing:5px; font-weight:600; line-height:1.1;">SARAT AYNOHA</h2>
+                   </div>
+               </section>
+
+               <footer>✦ GHISA DIGITAL · XV SARAT AYNOHA ✦</footer>
+
+           </div> <!-- FIN BLOQUE FONDO 2 -->
+
+       </div>
+   </div>
+
+   <script src="script.js"></script>
+</body>
+</html>
